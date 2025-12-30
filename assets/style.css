@@ -337,6 +337,49 @@
     background-color: #1e293b;
 }
 
+/* Sidebar selectbox text visibility - make selected value white */
+[data-testid="stSidebar"] .stSelectbox > div > div {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f8fafc !important;
+}
+
+[data-testid="stSidebar"] .stSelectbox > div > div > div {
+    color: #f8fafc !important;
+}
+
+[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] > div {
+    color: #f8fafc !important;
+    background-color: #1e293b;
+}
+
+[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] span {
+    color: #f8fafc !important;
+}
+
+/* Make the selected option text visible */
+[data-testid="stSidebar"] div[data-baseweb="select"] > div:first-child {
+    color: #f8fafc !important;
+}
+
+/* Dropdown selected value */
+[data-testid="stSidebar"] [data-baseweb="select"] [data-testid="stMarkdownContainer"] {
+    color: #f8fafc !important;
+}
+
+/* Alternative selectors for different Streamlit versions */
+section[data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div {
+    color: #ffffff !important;
+}
+
+section[data-testid="stSidebar"] .stSelectbox div[role="combobox"] {
+    color: #ffffff !important;
+}
+
+section[data-testid="stSidebar"] .stSelectbox span {
+    color: #ffffff !important;
+}
+
 /* Streamlit Widget Overrides */
 .stSelectbox > div > div {
     background-color: #1e293b;

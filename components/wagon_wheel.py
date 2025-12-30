@@ -12,23 +12,25 @@ def get_adjusted_angle(shot_angle, is_rhb):
     
     From PDF diagrams:
     - RHB: 0°/360° at top, 90° at right, angles go clockwise
-    - LHB: 180° at top, 90° at left, angles go clockwise (mirrored)
+    - LHB: 180° at top, 90° at left, 0°/360° at bottom, 270° at right, angles go clockwise (mirrored)
     
-    Matplotlib: 0° at right, 90° at top, angles go counter-clockwise
+    Matplotlib polar: 0° at right, 90° at top, angles go counter-clockwise
     
-    Formulas:
-    - RHB: matplotlib = (270 - cricket) % 360
-    - LHB: matplotlib = (90 - cricket) % 360
+    For RHB:
+    - Cricket 0° (top) → matplotlib 90° (top): formula = (90 - cricket) % 360
+    - Cricket 90° (right) → matplotlib 0° (right): ✓
+    
+    For LHB (the diagram is mirrored, but shot_angle values are absolute field positions):
+    - For LHB, we want the SAME physical field position to appear at the SAME screen position
+    - Since shot_angle represents absolute field direction, use SAME formula as RHB
+    - This ensures shots to "right side of field" appear on "right side of wheel" for both
     """
     if shot_angle is None or pd.isna(shot_angle):
         return None
     
-    if is_rhb:
-        # Right-handed batter
-        matplotlib_angle = (270 - shot_angle) % 360
-    else:
-        # Left-handed batter (mirrored orientation)
-        matplotlib_angle = (90 - shot_angle) % 360
+    # Use same formula for both RHB and LHB
+    # This shows absolute field positions consistently
+    matplotlib_angle = (90 - shot_angle) % 360
     
     return matplotlib_angle
 
@@ -219,7 +221,7 @@ def render_scoring_areas_wheel(df, is_rhb):
                 xy=(text_angle_rad, text_r),
                 ha='center',
                 va='center',
-                fontsize=10,
+                fontsize=7,
                 fontweight='normal',
                 color='#333',
                 linespacing=1.2

@@ -65,26 +65,22 @@ def create_progression_plot(data, y_column, title, y_label, color="#4ade80"):
         hovertemplate=f"Ball %{{x}}<br>{y_label}: %{{y:.2f}}<extra></extra>"
     ))
     
+    # Update layout with simpler syntax for plotly compatibility
     fig.update_layout(
-        title=dict(
-            text=title,
-            font=dict(color="white", size=14),
-            x=0.5
-        ),
-        xaxis=dict(
-            title="Rolling window for Balls faced",
-            titlefont=dict(color="white"),
-            tickfont=dict(color="white"),
-            gridcolor='rgba(255,255,255,0.1)',
-            showgrid=True
-        ),
-        yaxis=dict(
-            title=y_label,
-            titlefont=dict(color="white"),
-            tickfont=dict(color="white"),
-            gridcolor='rgba(255,255,255,0.1)',
-            showgrid=True
-        ),
+        title_text=title,
+        title_font_color="white",
+        title_font_size=14,
+        title_x=0.5,
+        xaxis_title="Rolling window for Balls faced",
+        xaxis_title_font_color="white",
+        xaxis_tickfont_color="white",
+        xaxis_gridcolor='rgba(255,255,255,0.1)',
+        xaxis_showgrid=True,
+        yaxis_title=y_label,
+        yaxis_title_font_color="white",
+        yaxis_tickfont_color="white",
+        yaxis_gridcolor='rgba(255,255,255,0.1)',
+        yaxis_showgrid=True,
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         margin=dict(l=50, r=20, t=50, b=50),
@@ -205,3 +201,4 @@ def render_innings_progression_page(df):
     
     # Footer
     render_footer()
+    
