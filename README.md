@@ -2,7 +2,7 @@
 
 A comprehensive Streamlit web application for analyzing ball-by-ball batting data in women's T20 cricket matches.
 
-## 🏏 Features
+## Features
 
 - **Line-Length wise Analysis**: Pitchmaps and statistics broken down by bowling line and length
 - **Bowler wise Performance**: Detailed performance metrics against each bowler
@@ -14,7 +14,7 @@ A comprehensive Streamlit web application for analyzing ball-by-ball batting dat
 - **Feet Movement**: Analysis of footwork patterns and their effectiveness
 - **Dismissals**: Breakdown of dismissal types by variation and bowler
 
-## 📁 Folder Structure
+## Structure
 
 ```
 wt20-bat/
@@ -55,7 +55,7 @@ wt20-bat/
     └── style.css               # Custom CSS for dark theme
 ```
 
-## 🚀 Installation
+## Installation
 
 1. Clone or download this repository
 2. Navigate to the project folder:
@@ -68,7 +68,7 @@ wt20-bat/
    ```
 4. Place your `wt20.csv` data file in the `data/` folder
 
-## 📊 Data Requirements
+## Data Requirements
 
 Your CSV file should contain the following columns:
 - `fixtureId`, `matchDate`, `ground`, `country`
@@ -81,15 +81,7 @@ Your CSV file should contain the following columns:
 - `foot`, `runs_scored`, `is_wicket`
 - `timestamp`, `competition`
 
-## ▶️ Running the App
-
-```bash
-streamlit run main.py
-```
-
-The app will open in your default web browser at `http://localhost:8501`
-
-## 📈 Key Metrics Explained
+## Key Metrics
 
 - **eSR (Effective Strike Rate)**: Batter's SR compared to average batter in selected matches
 - **eControl (Effective Control)**: Batter's control % compared to average batter
@@ -97,29 +89,3 @@ The app will open in your default web browser at `http://localhost:8501`
 
 Positive values (shown in green) indicate better than average performance.
 Negative values (shown in red) indicate below average performance.
-
-## 🎨 Design
-
-- Dark theme optimized for data visualization
-- Color-coded pitchmaps (Red → Orange → Yellow → Green scale)
-- Responsive layout for various screen sizes
-- Interactive tables with sorting capability
-
-## 👨‍💻 Developer
-
-**Rhitankar Bandyopadhyay**
-
-- Twitter: [@rhitankar](https://x.com/rhitankar?s=21)
-- GitHub: [rhitankar8616](https://github.com/rhitankar8616)
-- LinkedIn: [Rhitankar Bandyopadhyay](https://www.linkedin.com/in/rhitankar-bandyopadhyay-a2099227b/)
-
-## 📝 License
-
-This project is for personal/educational use.
-
-## 🐛 Issues
-
-If you encounter any issues, please check:
-1. Data file is correctly placed in `data/wt20.csv`
-2. All required columns are present in the CSV
-3. Python dependencies are installed correctly
