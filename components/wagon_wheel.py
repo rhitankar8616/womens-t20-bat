@@ -9,30 +9,35 @@ import math
 def get_adjusted_angle(shot_angle, is_rhb):
     """
     Adjust shot angle for matplotlib polar plot based on batter handedness.
+    Used for Boundaries and Caught Out wheels.
     
-    From PDF diagrams:
-    - RHB: 0°/360° at top, 90° at right, angles go clockwise
-    - LHB: 180° at top, 90° at left, 0°/360° at bottom, 270° at right, angles go clockwise (mirrored)
-    
-    Matplotlib polar: 0° at right, 90° at top, angles go counter-clockwise
-    
-    For RHB:
-    - Cricket 0° (top) → matplotlib 90° (top): formula = (90 - cricket) % 360
-    - Cricket 90° (right) → matplotlib 0° (right): ✓
-    
-    For LHB (the diagram is mirrored, but shot_angle values are absolute field positions):
-    - For LHB, we want the SAME physical field position to appear at the SAME screen position
-    - Since shot_angle represents absolute field direction, use SAME formula as RHB
-    - This ensures shots to "right side of field" appear on "right side of wheel" for both
+    Uses same formula for both RHB and LHB since shot_angle represents
+    absolute field direction.
     """
     if shot_angle is None or pd.isna(shot_angle):
         return None
     
-    # Use same formula for both RHB and LHB
-    # This shows absolute field positions consistently
     matplotlib_angle = (90 - shot_angle) % 360
-    
     return matplotlib_angle
+
+
+def get_scoring_area_display_angle(shot_angle, is_rhb):
+    """
+    Get display angle specifically for Scoring Areas wheel.
+    
+    For LHB, we need to shift the display position by 90° (2 sectors) 
+    anti-clockwise to correctly align the sector stats with field positions.
+    """
+    if shot_angle is None or pd.isna(shot_angle):
+        return None
+    
+    base_angle = (90 - shot_angle) % 360
+    
+    if not is_rhb:
+        # For LHB, shift 90° anti-clockwise (add 90° to matplotlib angle)
+        base_angle = (base_angle + 90) % 360
+    
+    return base_angle
 
 
 def render_boundaries_wheel(df, is_rhb):
@@ -136,6 +141,8 @@ def render_scoring_areas_wheel(df, is_rhb):
     Render the Scoring Areas wagon wheel.
     Divides the ground into 8 equal sectors and shows stats in each.
     Each sector is 45 degrees, divided at 0, 45, 90, 135, 180, 225, 270, 315.
+    
+    For LHB, display positions are shifted 90° to correctly align with field positions.
     """
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={'projection': 'polar'})
     
@@ -192,17 +199,17 @@ def render_scoring_areas_wheel(df, is_rhb):
         # Calculate sector center angle in cricket coordinates
         mid_angle = (start_angle + end_angle) / 2
         
-        # Draw sector boundaries
+        # Draw sector boundaries using the scoring area display function
         for angle in [start_angle, end_angle]:
             # Handle 360 as 0
             draw_angle = angle if angle < 360 else 0
-            adj_angle = get_adjusted_angle(draw_angle, is_rhb)
+            adj_angle = get_scoring_area_display_angle(draw_angle, is_rhb)
             if adj_angle is not None:
                 angle_rad = np.deg2rad(adj_angle)
                 ax.plot([angle_rad, angle_rad], [0, 1], color='#666', linewidth=1, alpha=0.8)
         
-        # Calculate text position (middle of sector)
-        adj_mid_angle = get_adjusted_angle(mid_angle, is_rhb)
+        # Calculate text position (middle of sector) using scoring area display function
+        adj_mid_angle = get_scoring_area_display_angle(mid_angle, is_rhb)
         if adj_mid_angle is not None:
             text_angle_rad = np.deg2rad(adj_mid_angle)
             text_r = 0.55  # Position text at 55% of radius
@@ -215,13 +222,13 @@ def render_scoring_areas_wheel(df, is_rhb):
             # Multi-line text for sector stats
             stats_text = f"{balls} balls\n{runs} runs\nAvg {avg_str}\nSR {sr_str}\n{pct_str}% of runs"
             
-            # Add text with smaller font
+            # Add text with font size 10
             ax.annotate(
                 stats_text,
                 xy=(text_angle_rad, text_r),
                 ha='center',
                 va='center',
-                fontsize=7,
+                fontsize=10,
                 fontweight='normal',
                 color='#333',
                 linespacing=1.2
