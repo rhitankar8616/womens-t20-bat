@@ -3,8 +3,6 @@
 A web app launched via Streamlit for detailed analysis of batters in women's T20s based on a ball-by-ball dataset of 1,98,787 deliveries.
 
 LIVE APP: https://womens-t20-bat.streamlit.app
-The app can be directly accessed and used from the link above.
-No installation required.
 
 
 ## Features
